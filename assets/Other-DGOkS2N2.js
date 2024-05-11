@@ -1,0 +1,1 @@
+import{j as t,B as r}from"./index-HTGZaqiZ.js";import{u as a}from"./useDocumentTitle-CFFr3LUC.js";function s(){return a("Other products | RoHa"),t.jsx(r,{maxWidth:"1230px",width:"100%",margin:"30px auto",padding:{base:"0 10px",isLargerThan440:"0 15px"},children:"Other products"})}export{s as default};
