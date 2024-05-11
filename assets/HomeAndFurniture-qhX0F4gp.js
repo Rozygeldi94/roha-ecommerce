@@ -1,0 +1,1 @@
+import{j as r,B as e}from"./index-CYxpFMnG.js";import{u as t}from"./useDocumentTitle-C0w6NW4P.js";function i(){return t("Home and furniture | RoHa"),r.jsx(e,{maxWidth:"1230px",width:"100%",margin:"30px auto",padding:{base:"0 10px",isLargerThan440:"0 15px"},children:"Home and furniture"})}export{i as default};
