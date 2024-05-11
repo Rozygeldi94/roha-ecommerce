@@ -1,0 +1,1 @@
+import{j as r,B as o}from"./index-B55yQqxX.js";import{u as t}from"./useDocumentTitle-DpVM8TTx.js";function n(){return t("For Men | RoHa"),r.jsx(o,{maxWidth:"1230px",width:"100%",margin:"30px auto",padding:{base:"0 10px",isLargerThan440:"0 15px"},children:"Products for men"})}export{n as default};
