@@ -1,4 +1,11 @@
-import { ChangeEvent, FC, FormEvent, useContext, useState } from "react";
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import {
   Text,
   Link,
@@ -32,21 +39,18 @@ export const AddComment: FC<IAddCommentProps> = ({ postId, setData }) => {
   const { currentUser, databaseUser, authUser, colorMode } =
     useContext(MainContext);
   const [isLargerThan450] = useMediaQuery("(min-width: 450px)");
+
   const [comment, setComment] = useState({
     value: "",
-    error: "",
+    errorMessage: "",
     isChecked: false,
   });
-
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setComment({ ...comment, value: e.target.value });
-  };
 
   const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (comment?.isChecked) {
       const commentFields = {
-        comment_id: getUID(),
+        id: getUID(),
         postId: postId,
         user: {
           id: authUser?.uid,
@@ -58,7 +62,11 @@ export const AddComment: FC<IAddCommentProps> = ({ postId, setData }) => {
         likes: [null],
       };
       setData(`users/${authUser?.uid}/comments`, commentFields, "push");
+      setComment({ ...comment, value: "", isChecked: false });
     }
+  };
+  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setComment({ ...comment, value: e.target.value });
   };
   const handleSetComment = (e: ChangeEvent<HTMLInputElement>) => {
     setComment({ ...comment, isChecked: e.target.checked });
@@ -102,6 +110,8 @@ export const AddComment: FC<IAddCommentProps> = ({ postId, setData }) => {
         onSubmit={handleSumbit}
       >
         <Textarea
+          required
+          maxLength={150}
           value={comment?.value}
           onChange={handleInputChange}
           minHeight="20px"
@@ -123,12 +133,15 @@ export const AddComment: FC<IAddCommentProps> = ({ postId, setData }) => {
             fontSize={{ base: "0.8rem", isLargerThan360: "0.9rem" }}
           >
             <Checkbox
+              required
               borderColor="blue.400"
+              isChecked={comment?.isChecked === true ? true : false}
               colorScheme="green"
               onChange={handleSetComment}
             >
               I agree with license
             </Checkbox>
+
             <Text>
               Posting as{" "}
               <Text as="span" fontWeight="600">

@@ -1,4 +1,12 @@
-import { Dispatch, FC, useContext, useRef } from "react";
+import {
+  Dispatch,
+  EventHandler,
+  FC,
+  MouseEvent,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useTypedSelector } from "@/hooks/useTypedSelector";
 import { useGetProductsByTitleQuery } from "@/store/api";
@@ -8,33 +16,42 @@ import { SearchedCategoryModal, SearchedProductsModal } from "./SearchModal";
 import { NothingFound } from "@/components/Products/NothingFound";
 import { MainContext } from "@/pages/Layout";
 import { Search } from ".";
+import { useActions } from "@/hooks/useActions";
 
 interface ISearchModalContainerProps {
   setIsModalOpen: Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SearchModalContainer: FC<ISearchModalContainerProps> = ({
-  setIsModalOpen,
-}) => {
+export const SearchModalContainer: FC<ISearchModalContainerProps> = () => {
   const [storageValue] = useSessionStorage("sidebarSelectedValues", []);
   const { categories, brands } = getCategoriesAndBrands(storageValue);
-  const { colorMode } = useContext(MainContext);
+  const { colorMode, setIsModalOpen, isModalOpen } = useContext(MainContext);
   const searchedResult: Record<string, string[]> = { category: [], brand: [] };
   const ref = useRef(null);
   const searchInputValue = useTypedSelector(
     (state) => state.searchProducts.value
   );
-
   const { data: result } = useGetProductsByTitleQuery(searchInputValue);
-
+  const { resetInputValue } = useActions();
   const products = result?.products;
 
-  useOutsideClick({
-    ref: ref,
-    handler: () => {
-      setIsModalOpen(false);
-    },
-  });
+  useEffect(() => {
+    const closeModal = (e: MouseEvent<HTMLDivElement>) => {
+      if (
+        !(e.target as HTMLElement).closest("#pop") &&
+        !(e.target as HTMLElement).closest("#header-search-input-logo") &&
+        (e.target as HTMLElement).id !== "header-search-input"
+      ) {
+        resetInputValue();
+        setIsModalOpen(false);
+      }
+    };
+    document.addEventListener("click", closeModal);
+
+    return () => {
+      document.removeEventListener("click", closeModal);
+    };
+  }, [searchInputValue]);
 
   categories.forEach((el) => {
     if (el?.category.toLowerCase().includes(searchInputValue.toLowerCase())) {
@@ -59,7 +76,7 @@ export const SearchModalContainer: FC<ISearchModalContainerProps> = ({
 
   return (
     <Flex
-      ref={ref}
+      id="pop"
       maxWidth="1000px"
       width="calc(100vw - 40px)"
       minHeight="235px"
@@ -78,56 +95,57 @@ export const SearchModalContainer: FC<ISearchModalContainerProps> = ({
       left="50%"
       top="50px"
       transform="translateX(-50%)"
-      overflowY="auto"
       zIndex="99999"
     >
-      {!searchInputValue ? (
-        <>
-          <Search isVisible={true} />
-          <Text mt="20px" textAlign="center">
-            The results will be shown here...
-          </Text>
-        </>
-      ) : (
-        <>
-          <Search isVisible={true} />
-          {searchedResult?.category.length > 0 && (
-            <Flex gap="15px">
-              <Box minWidth="80px">Categories:</Box>
+      <Box overflow="hidden" overflowY="auto">
+        {!searchInputValue ? (
+          <>
+            <Search isVisible={true} />
+            <Text mt="20px" textAlign="center">
+              The results will be shown here...
+            </Text>
+          </>
+        ) : (
+          <>
+            <Search isVisible={true} />
+            {searchedResult?.category.length > 0 && (
+              <Flex gap="15px">
+                <Box minWidth="80px">Categories:</Box>
 
-              <SearchedCategoryModal
-                type="categories"
-                list={searchedResult?.category}
-                searchInputValue={searchInputValue}
-              />
-            </Flex>
-          )}
-          {searchedResult?.brand.length > 0 && (
-            <Flex gap="15px">
-              <Box minWidth="80px">Brands:</Box>
+                <SearchedCategoryModal
+                  type="categories"
+                  list={searchedResult?.category}
+                  searchInputValue={searchInputValue}
+                />
+              </Flex>
+            )}
+            {searchedResult?.brand.length > 0 && (
+              <Flex gap="15px">
+                <Box minWidth="80px">Brands:</Box>
 
-              <SearchedCategoryModal
-                type="brands"
-                list={searchedResult?.brand}
-                searchInputValue={searchInputValue}
-              />
-            </Flex>
-          )}
-          {products?.length > 0 && (
-            <Flex
-              gap="15px"
-              flexDirection={{ base: "column", isLargerThan600: "row" }}
-            >
-              <Box minWidth="80px">Products:</Box>
+                <SearchedCategoryModal
+                  type="brands"
+                  list={searchedResult?.brand}
+                  searchInputValue={searchInputValue}
+                />
+              </Flex>
+            )}
+            {products?.length > 0 && (
+              <Flex
+                gap="15px"
+                flexDirection={{ base: "column", isLargerThan600: "row" }}
+              >
+                <Box minWidth="80px">Products:</Box>
 
-              <SearchedProductsModal products={products} />
-            </Flex>
-          )}
-          {!searchedResult?.category.length &&
-            !searchedResult?.brand.length &&
-            !products?.length && <NothingFound />}
-        </>
-      )}
+                <SearchedProductsModal products={products} />
+              </Flex>
+            )}
+            {!searchedResult?.category.length &&
+              !searchedResult?.brand.length &&
+              !products?.length && <NothingFound />}
+          </>
+        )}
+      </Box>
     </Flex>
   );
 };

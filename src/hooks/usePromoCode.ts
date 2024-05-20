@@ -109,6 +109,7 @@ export const useActivatedPromoCode = () => {
           await updateDoc(docRef, {
             activated_promo_codes: deleteField(),
           });
+          setActivatedPromo(null);
           setDeleteLoading(false);
         } catch (error) {
           console.error(error);

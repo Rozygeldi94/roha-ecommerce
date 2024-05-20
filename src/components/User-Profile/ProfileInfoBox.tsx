@@ -9,9 +9,10 @@ import {
   Link,
   VStack,
   FormErrorMessage,
+  InputElementProps,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { FC, useContext, useState } from "react";
+import { FC, ReactNode, useContext, useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useUserInfo } from "@/hooks/useUserInfo";
@@ -132,110 +133,110 @@ export const ProfileInfoBox: FC = () => {
         Profile information
       </Heading>
       {open ? (
-        <form
-          onSubmit={handleSubmit(saveUserInfoToDB)}
-          style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-        >
-          <FormControl
-            isInvalid={errors[EUserInfoForm.ABOUT_YOU] ? true : false}
+        <ChangeProfileInfo>
+          <form
+            onSubmit={handleSubmit(saveUserInfoToDB)}
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
-            <Textarea
-              required
-              bg={colorMode === "light" ? "#fff" : "#41416b"}
-              border={
-                colorMode === "light"
-                  ? "#6d6d78 1px solid"
-                  : "#b9b9dc 1px solid"
-              }
-              placeholder="Here is about you"
-              _placeholder={{
-                color: colorMode === "dark" ? "#baa9ce" : "#41416b",
-              }}
-              {...register(EUserInfoForm.ABOUT_YOU, {
-                maxLength: {
-                  value: 300,
-                  message: "Max length must be no longer 300 charachter!",
-                },
-              })}
-            />
-            <FormErrorMessage
-              color={colorMode === "light" ? "#9e0b0b" : "#fdfd3d"}
+            <FormControl
+              isInvalid={errors[EUserInfoForm.ABOUT_YOU] ? true : false}
             >
-              {errors[EUserInfoForm.ABOUT_YOU]?.message}
-            </FormErrorMessage>
-          </FormControl>
+              <Textarea
+                required
+                bg={colorMode === "light" ? "#fff" : "#41416b"}
+                border={
+                  colorMode === "light"
+                    ? "#6d6d78 1px solid"
+                    : "#b9b9dc 1px solid"
+                }
+                placeholder="Here is about you"
+                _placeholder={{
+                  color: colorMode === "dark" ? "#baa9ce" : "#41416b",
+                }}
+                {...register(EUserInfoForm.ABOUT_YOU, {
+                  maxLength: {
+                    value: 300,
+                    message: "Max length must be no longer 300 charachter!",
+                  },
+                })}
+              />
+              <FormErrorMessage
+                color={colorMode === "light" ? "#9e0b0b" : "#fdfd3d"}
+              >
+                {errors[EUserInfoForm.ABOUT_YOU]?.message}
+              </FormErrorMessage>
+            </FormControl>
 
-          <InputController
-            control={control}
-            name={EUserInfoForm.FIRST_NAME}
-            inputType="text"
-            placeholder="First name"
-          />
-          {errors[EUserInfoForm.FIRST_NAME] && (
-            <Text color={colorMode === "light" ? "#9e0b0b" : "#fdfd3d"}>
-              {errors[EUserInfoForm.FIRST_NAME].message}
-            </Text>
-          )}
+            <InputController
+              control={control}
+              name={EUserInfoForm.FIRST_NAME}
+              inputType="text"
+              placeholder="First name"
+            />
+            {errors[EUserInfoForm.FIRST_NAME] && (
+              <Text color={colorMode === "light" ? "#9e0b0b" : "#fdfd3d"}>
+                {errors[EUserInfoForm.FIRST_NAME].message}
+              </Text>
+            )}
 
-          <InputController
-            control={control}
-            name={EUserInfoForm.LAST_NAME}
-            inputType="text"
-            placeholder="Last name"
-          />
-          {errors[EUserInfoForm.LAST_NAME] && (
-            <Text color={colorMode === "light" ? "#9e0b0b" : "#fdfd3d"}>
-              {errors[EUserInfoForm.LAST_NAME].message}
-            </Text>
-          )}
+            <InputController
+              control={control}
+              name={EUserInfoForm.LAST_NAME}
+              inputType="text"
+              placeholder="Last name"
+            />
+            {errors[EUserInfoForm.LAST_NAME] && (
+              <Text color={colorMode === "light" ? "#9e0b0b" : "#fdfd3d"}>
+                {errors[EUserInfoForm.LAST_NAME].message}
+              </Text>
+            )}
 
-          <CountrySelect
-            onChange={(e: Country) => {
-              setCountry(e);
-              console.log("uhhhhhhh");
-            }}
-            placeHolder="Select Country"
-          />
+            <CountrySelect
+              onChange={(e: Country) => {
+                setCountry(e);
+              }}
+              placeHolder="Select Country"
+            />
 
-          <StateSelect
-            countryid={country?.id}
-            onChange={(e: State) => {
-              setCountryState(e);
-            }}
-            placeHolder="Select State"
-          />
+            <StateSelect
+              countryid={country?.id}
+              onChange={(e: State) => {
+                setCountryState(e);
+              }}
+              placeHolder="Select State"
+            />
 
-          <CitySelect
-            countryid={country?.id}
-            stateid={countryState?.id}
-            onChange={(e: City) => {
-              setCountryCity(e);
-            }}
-            placeHolder="Select City"
-          />
+            <CitySelect
+              countryid={country?.id}
+              stateid={countryState?.id}
+              onChange={(e: City) => {
+                setCountryCity(e);
+              }}
+              placeHolder="Select City"
+            />
 
-          <Button
-            type="submit"
-            isLoading={isLoading}
-            loadingText="Saving"
-            size="sm"
-            colorScheme="blue"
-          >
-            Save
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              isLoading={isLoading}
+              loadingText="Saving"
+              size="sm"
+              colorScheme="blue"
+            >
+              Save
+            </Button>
+          </form>
+        </ChangeProfileInfo>
       ) : (
         <Box display={open === false ? "block" : "none"}>
           <Text mb="20px">{currentUser?.about_you}</Text>
           <VStack spacing="3" alignItems="start">
-            <Text fontWeight="700">
-              Full name:{" "}
+            <Box fontWeight="700">
+              <Text as="span">Full name:</Text>{" "}
               <Text as="span" fontWeight="400">
                 {`${currentUser?.first_name} ${currentUser?.last_name}`}
               </Text>
-            </Text>
-
-            <Text>
+            </Box>
+            <Box>
               <Text as="span" fontWeight="700">
                 Email:
               </Text>{" "}
@@ -245,7 +246,13 @@ export const ProfileInfoBox: FC = () => {
               >
                 {currentUser?.user_email}
               </Link>
-            </Text>
+            </Box>
+            <Box>
+              <Text as="span" fontWeight="700">
+                Gender:
+              </Text>{" "}
+              <Link fontWeight="400">{currentUser?.gender}</Link>
+            </Box>
             <Box w="100%" fontWeight="700" display="flex" gap="5px">
               <Text>Phone number:</Text>
               <Link
@@ -280,4 +287,14 @@ export const ProfileInfoBox: FC = () => {
       )}
     </Box>
   );
+};
+
+const ChangeProfileInfo = ({ children }: { children: ReactNode }) => {
+  useEffect(() => {
+    const allInputs = document.querySelectorAll<HTMLElement>(
+      ".stsearch-box > input"
+    );
+    allInputs.forEach((el) => (el.required = true));
+  }, []);
+  return children;
 };

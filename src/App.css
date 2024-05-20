@@ -95,10 +95,6 @@ a {
 .swiper-pagination {
   bottom: 12px !important;
 }
-/* .chakra-menu__menu-list,
-.chakra-menu__menuitem {
-  background: #bfc6e5 !important;
-} */
 
 @media screen and (max-width: 700px) {
   body,
@@ -121,10 +117,11 @@ a {
   }
 }
 @media screen and (max-width: 470px) {
-  .css-bnbtxj {
+  #products-wrap {
     margin-left: calc(10px + (120 - 40) * ((100vw - 300px) / (469 - 300)));
   }
 }
+
 @media (min-width: 444px) and (max-width: 960px) {
   .ql-toolbar {
     display: flex;

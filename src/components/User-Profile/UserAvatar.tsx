@@ -7,7 +7,8 @@ interface IUserAvatarProps {
   currentUser: ICurrentUser | DocumentData | null;
   databaseUserAvatar: string | undefined;
   isRealUser: boolean;
-  minWidth: string;
+  width?: string;
+  minWidth?: string;
   height: string;
   borderRadius: string;
   onOpen?: () => void;
@@ -18,6 +19,7 @@ export const UserAvatar: FC<IUserAvatarProps> = ({
   currentUser,
   databaseUserAvatar,
   isRealUser,
+  width,
   minWidth,
   height,
   borderRadius,
@@ -37,6 +39,7 @@ export const UserAvatar: FC<IUserAvatarProps> = ({
     <>
       {databaseUserAvatar?.length ? (
         <Image
+          width={width}
           minWidth={minWidth}
           height={height}
           objectFit="cover"
@@ -53,7 +56,7 @@ export const UserAvatar: FC<IUserAvatarProps> = ({
               ? "/output-male-min.png"
               : "/output-female-min.png"
           }
-          minWidth={minWidth}
+          width={width}
           height={height}
           alt="user-avatar"
         />

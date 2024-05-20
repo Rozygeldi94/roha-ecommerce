@@ -11,11 +11,11 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { LOGIN } from "../../route";
+import { LOGIN } from "@/route";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useRegister } from "../../hooks/auth";
+import { useRegister } from "@/hooks/auth";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -42,7 +42,6 @@ const validationSchema = Yup.object().shape({
       /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
       "Password should be 8-20 characters and include at least 1 letter, 1 number and 1 special character!"
     ),
-
   cPassword: Yup.string()
     .required("Confirm Password is required")
     .oneOf([Yup.ref("password")], "Passwords must match"),
@@ -116,6 +115,7 @@ export const SignUp: React.FC = () => {
             isInvalid={errors[ERegisterForm.FIRST_NAME] ? true : false}
           >
             <Input
+              maxLength={41}
               w="100%"
               p="8px 15px"
               color="#343333"
@@ -136,6 +136,7 @@ export const SignUp: React.FC = () => {
             isInvalid={errors[ERegisterForm.LAST_NAME] ? true : false}
           >
             <Input
+              maxLength={41}
               w="100%"
               p="8px 15px"
               color="#343333"
@@ -154,6 +155,7 @@ export const SignUp: React.FC = () => {
           </FormControl>
           <FormControl isInvalid={errors[ERegisterForm.EMAIL] ? true : false}>
             <Input
+              maxLength={41}
               w="100%"
               p="8px 15px"
               color="#343333"
@@ -230,6 +232,7 @@ export const SignUp: React.FC = () => {
             isInvalid={errors[ERegisterForm.PASSWORD] ? true : false}
           >
             <Input
+              maxLength={21}
               type="password"
               color="#343333"
               w="100%"
@@ -250,6 +253,7 @@ export const SignUp: React.FC = () => {
             isInvalid={errors[ERegisterForm.CONFIRM_PASSWORD] ? true : false}
           >
             <Input
+              maxLength={21}
               type="password"
               color="#343333"
               w="100%"

@@ -22,7 +22,7 @@ export const useRealtimeDataBase = () => {
     }
     if (databaseUser === null) {
       onValue(ref(database, docRef), (snapshot) => {
-        setDatabaseUser(snapshot.val());
+        if (snapshot.exists()) setDatabaseUser(snapshot.val());
       });
     }
   };

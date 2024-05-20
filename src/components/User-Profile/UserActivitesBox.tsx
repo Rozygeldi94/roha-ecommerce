@@ -3,7 +3,8 @@ import { Box, Text } from "@chakra-ui/react";
 import { useContext } from "react";
 
 export const UserActivites = () => {
-  const { currentUser, colorMode } = useContext(MainContext);
+  const { currentUser, databaseUser, colorMode } = useContext(MainContext);
+
   return (
     <Box
       maxWidth="45%"
@@ -28,6 +29,12 @@ export const UserActivites = () => {
       <Text>
         Your activated promo codes:{" "}
         <Text as="span">{currentUser?.activated_promo_codes?.length}</Text>
+      </Text>
+      <Text>
+        Your comments:{" "}
+        <Text as="span">
+          {databaseUser && Object.values(databaseUser?.comments).length}
+        </Text>
       </Text>
     </Box>
   );

@@ -35,10 +35,10 @@ export const LOGIN = "/login";
 export const REGISTER = "/register";
 export const RESET_PASSWORD = "/reset-password";
 export const SHOPPING_CART = "/shopping-cart";
-export const PROFILE = "/dashboard/:uid";
 export const PRODUCT = "/:category/:id/:title";
 export const SPECIAL_OFFERS = "/special_offers/:title";
 export const CATEGORY = "/:category/:title";
+export const PROFILE = "/dashboard/:uid";
 
 export const route = createBrowserRouter([
   {

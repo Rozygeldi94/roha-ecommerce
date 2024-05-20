@@ -26,9 +26,13 @@ export const Payments = () => {
     >
       <Link as={RouterLink} pt="6px" to={ROOT}>
         {colorMode === "light" ? (
-          <FooterLogo logoSrc="/logo_brown.svg" />
+          <FooterLogo
+            logoSrc={`${import.meta.env.VITE_ROUTER_BASE_NAME}/logo_brown.svg`}
+          />
         ) : (
-          <FooterLogo logoSrc="/logo_white.svg" />
+          <FooterLogo
+            logoSrc={`${import.meta.env.VITE_ROUTER_BASE_NAME}/logo_white.svg`}
+          />
         )}
       </Link>
       <Box display="flex" alignItems="center" gap="5px">

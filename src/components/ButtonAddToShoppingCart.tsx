@@ -1,10 +1,11 @@
-import { FC, MouseEvent, useEffect } from "react";
+import { FC, MouseEvent, useContext, useEffect } from "react";
 import { useActions } from "@/hooks/useActions";
 import { useTypedSelector } from "@/hooks/useTypedSelector";
 import { IProduct } from "@/types/product.types";
 import { updateFirestoreDocField } from "@/utils/updateFirestoreShoppingCart";
 import { useToast } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
+import { MainContext } from "@/pages/Layout";
 
 interface IButtonAddToShoppingCartProps {
   currentProduct: IProduct | null;
@@ -20,6 +21,7 @@ export const ButtonAddToShoppingCart: FC<IButtonAddToShoppingCartProps> = ({
   const storeProducts = useTypedSelector(
     (state) => state.shoppingCard.shoppingCartProducts
   );
+  const { authUser } = useContext(MainContext);
 
   const isExits = storeProducts?.some(
     (product) => product?.id === currentProduct?.id
@@ -45,10 +47,15 @@ export const ButtonAddToShoppingCart: FC<IButtonAddToShoppingCartProps> = ({
     <Button
       size={{ base: "sm", md: size ? size : "md" }}
       textAlign={size ? "center" : "initial"}
+      isDisabled={!authUser ? true : false}
       colorScheme={isExits ? "green" : "blue"}
       onClick={handleClick}
     >
-      {isExits ? "Added to Shopping card" : "Add to Shopping card"}
+      {!authUser
+        ? "Please sign in!"
+        : isExits
+        ? "Added to Shopping card"
+        : "Add to Shopping card"}
     </Button>
   );
 };

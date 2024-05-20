@@ -1,26 +1,26 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { FC, useContext } from "react";
+import { Button, Flex, Text, useMediaQuery } from "@chakra-ui/react";
 import { UserAvatar } from "../User-Profile/UserAvatar";
 import { CommentLikes } from "./CommentLikes";
-import { FC, useContext } from "react";
-
+import { useTypedSelector } from "@/hooks/useTypedSelector";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { MainContext } from "@/pages/Layout";
 import { IDatabaseUser } from "@/types/databaseUser.type";
 import { IBotComment, IComment } from "@/types/productComments";
+import { TimeAgoCreatedTime } from "./TimeAgoCreatedTime";
 
 interface IProductCommentProps {
   comment: IComment | IBotComment;
 }
 
 export const ProductComment: FC<IProductCommentProps> = ({ comment }) => {
+  const [isLargerThan440] = useMediaQuery("(min-width: 440px)");
   const { currentUser, databaseUser, colorMode } = useContext(MainContext);
   const databaseUsers: IDatabaseUser[] | null = useTypedSelector(
     (state) => state.databaseUser.users
   );
-  TimeAgo.addDefaultLocale(en);
-  // Create formatter (English).
-  const timeAgo = new TimeAgo("en-US");
+  TimeAgo.addLocale(en);
   let offlineUserAvatar: IDatabaseUser[] = Object.values(
     databaseUser ? databaseUser : []
   ).filter((item) => {
@@ -52,24 +52,18 @@ export const ProductComment: FC<IProductCommentProps> = ({ comment }) => {
       <Flex flexDirection="column" gap="3px">
         <Flex alignItems="center" gap="10px">
           <Text>{comment?.user?.username}</Text>
-          <Text>
-            {timeAgo.format(
-              (comment as IComment)?.created_time
-                ? (comment as IComment)?.created_time
-                : Date.now()
-            )}
-          </Text>
         </Flex>
-
-        <Text>{comment?.body}</Text>
-        <Flex gap="15px">
+        <Text overflowWrap="anywhere">{comment?.body}</Text>
+        {!isLargerThan440 && (comment as IComment)?.user?.gender && (
+          <TimeAgoCreatedTime comment={comment as IComment} />
+        )}
+        <Flex gap="15px" alignItems="center">
           <CommentLikes
             likes={(comment as IComment)?.likes}
             databaseCurrentUser={databaseUser}
             databaseUsers={databaseUsers}
             comment={comment}
           />
-
           <Button
             variant="unstyled"
             size="sm"
@@ -77,6 +71,11 @@ export const ProductComment: FC<IProductCommentProps> = ({ comment }) => {
           >
             Reply
           </Button>
+          {isLargerThan440 && (comment as IComment)?.user?.gender && (
+            <>
+              {"┊"} <TimeAgoCreatedTime comment={comment as IComment} />
+            </>
+          )}
         </Flex>
       </Flex>
     </Flex>

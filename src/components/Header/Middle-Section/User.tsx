@@ -36,14 +36,14 @@ export const User: FC<IUserProps> = ({
 }) => {
   const { authUser, currentUser, databaseUser } = useContext(MainContext);
   const { colorMode } = useColorMode();
-  const { getData, getData2 } = useRealtimeDataBase();
+  // const { getData, getData2 } = useRealtimeDataBase();
   const stringToUpperCase = (str: string) =>
     str?.[0].toUpperCase() + str?.slice(1).toLowerCase();
-
+  /* 
   useEffect(() => {
     getData(`users/${authUser?.uid}`);
     getData2(`users`);
-  }, []);
+  }, []); */
 
   return (
     <Box display="flex" alignItems="center">
@@ -61,7 +61,7 @@ export const User: FC<IUserProps> = ({
               currentUser={currentUser}
               databaseUserAvatar={databaseUser?.user_avatar}
               isRealUser={true}
-              minWidth="100%"
+              width="100%"
               height={isLargerThan440 ? "40px" : "35px"}
               borderRadius="50%"
             />

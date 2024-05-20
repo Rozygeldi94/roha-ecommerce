@@ -11,7 +11,9 @@ export const searchProductsSlice = createSlice({
       state.value = inputValue;
     },
     resetInputValue: (state) => {
-      state.value = "";
+      if (state.value) {
+        state.value = "";
+      }
     },
   },
 });

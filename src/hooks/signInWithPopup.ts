@@ -17,7 +17,7 @@ export const useSignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     const allFirestoreUsers = await getAllUsersFromFirestore();
 
-    signInWithPopup(auth, provider)
+    await signInWithPopup(auth, provider)
       .then((result) => {
         const currentUser = result.user;
         const filteredUser = allFirestoreUsers.filter(

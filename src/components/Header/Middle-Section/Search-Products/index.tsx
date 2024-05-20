@@ -30,7 +30,7 @@ interface ISearchProps {
 }
 
 export const Search: FC<ISearchProps> = ({ isMobile = false, isVisible }) => {
-  const { colorMode } = useContext(MainContext);
+  const { colorMode, isModalOpen, setIsModalOpen } = useContext(MainContext);
   const searchInputValue = useTypedSelector(
     (state) => state.searchProducts.value
   );
@@ -41,16 +41,6 @@ export const Search: FC<ISearchProps> = ({ isMobile = false, isVisible }) => {
     setSidebarActive,
     resetSidebarValues,
   } = useActions();
-  const {
-    isOpen: isOpenMobileModal,
-    onOpen: onOpenMobileModal,
-    onClose: onCloseMobileModal,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenSearchModal,
-    onOpen: onOpenSearchModal,
-    onClose: onCloseSearchModal,
-  } = useDisclosure();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -107,14 +97,18 @@ export const Search: FC<ISearchProps> = ({ isMobile = false, isVisible }) => {
     resetInputValue();
     inputRef.current?.focus();
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsModalOpen((prev: boolean) => !prev);
+  };
 
   return isMobile ? (
     <>
       <BiSearch
+        id="header-search-input-logo"
         size="23px"
         height="23px"
-        onClick={() => setIsModalOpen(true)}
+        onClick={handleCloseModal}
       />
       {isModalOpen && <SearchModalContainer setIsModalOpen={setIsModalOpen} />}
     </>
@@ -122,15 +116,17 @@ export const Search: FC<ISearchProps> = ({ isMobile = false, isVisible }) => {
     <InputGroup
       display={isVisible ? { base: "flex", isLargerThan600: "none" } : {}}
       size="sm"
+      mb="10px"
       position="relative"
       className="searchInput"
-      onClick={onOpenSearchModal}
     >
-      <InputLeftElement width="2rem">
+      <InputLeftElement id="header-search-input-logo" width="2rem">
         <BsSearch size="19px" />
       </InputLeftElement>
       <Input
+        id="header-search-input"
         value={value}
+        maxLength={100}
         placeholder="Title or Description"
         onChange={updateInputValue}
         ref={inputRef}

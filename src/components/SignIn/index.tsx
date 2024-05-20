@@ -1,12 +1,22 @@
-import { Box, Button, Heading, Input, Text, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  Input,
+  Text,
+  Link,
+  InputRightElement,
+  InputGroup,
+} from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { REGISTER, RESET_PASSWORD } from "@/route";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useLogin } from "@/hooks/auth";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useSignInWithGoogle } from "@/hooks/signInWithPopup";
 import { MainContext } from "@/pages/Layout";
+import { BsEyeFill, BsEyeSlash } from "react-icons/bs";
 
 enum EInputName {
   EMAIL = "email",
@@ -22,21 +32,14 @@ export const SignIn: React.FC = () => {
   const { authUser } = useContext(MainContext);
   const navigate = useNavigate();
   const { signInWithGoogle } = useSignInWithGoogle();
+  const { register, handleSubmit } = useForm<ILoginForm>();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (authUser) {
       navigate("/");
     }
   }, [authUser]);
-
-  const { register, handleSubmit } = useForm<ILoginForm>();
-
-  //when user click the subscription button automatically will navigate
-  //to login page and after 0.5s will scroll top
-  //  setTimeout(() => {
-  //  animateScroll.scrollToTop();
-  //  }, 1000);
-  //end scroll
 
   const login: SubmitHandler<ILoginForm> = (data) => {
     Login({
@@ -47,6 +50,7 @@ export const SignIn: React.FC = () => {
   const handleLogin = () => {
     signInWithGoogle();
   };
+  const handleClickSetShow = () => setShow(!show);
 
   return (
     <Box id="sign-in" padding={{ base: "0 10px", isLargerThan440: "0 15px" }}>
@@ -74,6 +78,8 @@ export const SignIn: React.FC = () => {
           onSubmit={handleSubmit(login)}
         >
           <Input
+            required
+            maxLength={50}
             w="100%"
             p="8px 15px"
             color="#343333"
@@ -86,20 +92,32 @@ export const SignIn: React.FC = () => {
             bg="#e0e6f2"
             {...register(EInputName.EMAIL)}
           />
+          <InputGroup size="md">
+            <Input
+              required
+              maxLength={30}
+              width="100%"
+              padding="8px 15px"
+              paddingRight="52px"
+              color="#343333"
+              type={show ? "text" : "password"}
+              borderRadius="5px"
+              border="none"
+              outline="none"
+              placeholder="Password"
+              _placeholder={{ color: "#504c90" }}
+              bg="#e0e6f2"
+              {...register(EInputName.PASSWORD)}
+            />
+            <InputRightElement marginRight="4px" onClick={handleClickSetShow}>
+              {show ? (
+                <BsEyeFill size="16px" color="black" />
+              ) : (
+                <BsEyeSlash size="16px" color="black" />
+              )}
+            </InputRightElement>
+          </InputGroup>
 
-          <Input
-            w="100%"
-            p="8px 15px"
-            color="#343333"
-            type="password"
-            borderRadius="5px"
-            border="none"
-            outline="none"
-            placeholder="Password"
-            _placeholder={{ color: "#504c90" }}
-            bg="#e0e6f2"
-            {...register(EInputName.PASSWORD)}
-          />
           <Button
             p="8px 15px"
             mt="10px"

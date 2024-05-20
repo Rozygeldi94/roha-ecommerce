@@ -63,7 +63,12 @@ export function useLogin() {
       navigate(ROOT);
     } catch (error) {
       toast({
-        title: (error as Error).message,
+        title:
+          (error as Error).message ===
+          "Firebase: Error (auth/invalid-credential)."
+            ? "You have entered incorrect username or password!"
+            : (error as Error).message,
+
         status: "error",
         duration: 5000,
         isClosable: true,

@@ -1,5 +1,5 @@
-import { FC, createContext, useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { FC, createContext, useContext, useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import {
   Box,
   Text,
@@ -17,7 +17,6 @@ import {
   useGetAllCommentsByPostIdQuery,
   useGetProductByIdQuery,
 } from "@/store/api";
-import { IProduct } from "@/types/product.types";
 import { useTypedSelector } from "@/hooks/useTypedSelector";
 import { ProductImages } from "./ProductImages";
 import { ButtonAddToShoppingCart } from "@/components/ButtonAddToShoppingCart";
@@ -26,7 +25,8 @@ import { ProductComments } from "./ProductComments";
 import { IUserInfo, useRealtimeDataBase } from "@/hooks/realtimeDataBase";
 import { MainContext } from "@/pages/Layout";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
-import { IComment, TCommentLikes } from "@/types/productComments";
+import { IBotComment, IComment, TCommentLikes } from "@/types/productComments";
+import { calculateAllCommentsCount } from "@/utils/calculateAllCommentsCount";
 
 export interface IDatabaseContext {
   setData: (
@@ -40,18 +40,37 @@ export const DatabaseContext = createContext<IDatabaseContext | null>(null);
 export const Product: FC = () => {
   const { id } = useParams();
   const { data: currentProduct } = useGetProductByIdQuery(id);
-  const { data: dummyjsonComments } = useGetAllCommentsByPostIdQuery(id);
+  const { data: productComments } = useGetAllCommentsByPostIdQuery(id);
   useDocumentTitle(
     currentProduct ? `${currentProduct?.title}` : "Product | RoHa"
   );
-  const { authUser, colorMode } = useContext(MainContext);
+  const location = useLocation();
 
+  const { authUser, colorMode, isModalOpen, setIsModalOpen } =
+    useContext(MainContext);
+  const [allComments, setAllComments] = useState<(IComment | IBotComment)[]>(
+    []
+  );
+  const databaseUsers = useTypedSelector((state) => state.databaseUser.users);
   const storeProducts = useTypedSelector(
     (state) => state.shoppingCard.shoppingCartProducts
   );
-  console.log(dummyjsonComments);
-
   const { setData } = useRealtimeDataBase();
+
+  useEffect(() => {
+    const allComments = calculateAllCommentsCount(
+      databaseUsers,
+      productComments?.comments,
+      id
+    );
+    setAllComments(allComments);
+  }, [databaseUsers, productComments]);
+
+  useEffect(() => {
+    console.log(222);
+
+    isModalOpen && setIsModalOpen(false);
+  }, [location.pathname]);
 
   return (
     <DatabaseContext.Provider value={{ setData }}>
@@ -126,7 +145,11 @@ export const Product: FC = () => {
                 {currentProduct?.title}
               </Text>
               <Text flexGrow="1">{currentProduct?.description}</Text>
-              <Text fontSize="1.2rem" color="red" fontWeight="600">
+              <Text
+                fontSize="1.2rem"
+                color={colorMode === "light" ? "green" : "#e8cf17"}
+                fontWeight="600"
+              >
                 {currentProduct?.price} TL
               </Text>
               <Flex gap="15px" alignItems="center">
@@ -139,7 +162,7 @@ export const Product: FC = () => {
                   {currentProduct?.rating}
                   <StarRating productRating={currentProduct?.rating} />
                 </Flex>
-                <Text>{dummyjsonComments?.total} comments</Text>
+                <Text>{allComments?.length} comments</Text>
               </Flex>
               <ButtonAddToShoppingCart currentProduct={currentProduct} />
             </Box>
@@ -148,13 +171,15 @@ export const Product: FC = () => {
         {authUser ? (
           <Box padding={{ base: "0 10px", isLargerThan440: "0 15px" }}>
             <AddComment postId={id} setData={setData} />
-            <ProductComments
-              postId={id}
-              dummyjsonComments={dummyjsonComments?.comments}
-            />
+            <ProductComments allComments={allComments} />
           </Box>
         ) : (
-          ""
+          <Text
+            mt="40px"
+            padding={{ base: "0 10px", isLargerThan440: "0 15px" }}
+          >
+            Please sign in to view comments!
+          </Text>
         )}
       </Box>
     </DatabaseContext.Provider>

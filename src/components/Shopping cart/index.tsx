@@ -1,3 +1,4 @@
+import { FC, useEffect } from "react";
 import {
   Box,
   Checkbox,
@@ -7,7 +8,6 @@ import {
   useColorMode,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { FC, useEffect } from "react";
 import { QuantityCount } from "./quantityCount";
 import { useActions } from "@/hooks/useActions";
 import { Link as RouterLink } from "react-router-dom";
@@ -70,6 +70,13 @@ export const ShoppingCardProduct: FC<IShoppingCardProductProps> = ({
         flexGrow="1"
       >
         <Checkbox
+          borderColor={
+            shoppingCartProduct?.isCheckboxActive === false
+              ? colorMode === "light"
+                ? "blue"
+                : "yellow"
+              : ""
+          }
           isChecked={shoppingCartProduct?.isCheckboxActive}
           onChange={() => {
             changeCheckboxStatus(shoppingCartProduct);

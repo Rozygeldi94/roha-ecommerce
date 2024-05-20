@@ -11,7 +11,14 @@ import {
   useColorMode,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { Suspense, createContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  Suspense,
+  createContext,
+  useEffect,
+  useState,
+} from "react";
 import { useActions } from "@/hooks/useActions";
 import { useTypedSelector } from "@/hooks/useTypedSelector";
 import { User, onAuthStateChanged } from "firebase/auth";
@@ -23,6 +30,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { ICurrentUser } from "@/types/currentUser.types";
 import { IDatabaseUser } from "@/types/databaseUser.type";
 import { OfferSection } from "@/components/Header/_offerSection/OfferSection";
+import { useRealtimeDataBase } from "@/hooks/realtimeDataBase";
 
 type TMainContext = {
   currentUser: ICurrentUser | DocumentData | null;
@@ -30,6 +38,8 @@ type TMainContext = {
   authUser: User | null | undefined;
   colorMode: ColorMode;
   hasScrolled: boolean;
+  isModalOpen: boolean;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export const MainContext = createContext<TMainContext>(null);
@@ -42,6 +52,7 @@ export default function Layout() {
   const { saveImportedDataToStore } = useActions();
   const location = useLocation();
   const [isVisibleOfferSection, setIsVisibleOfferSection] = useState(true);
+  const { getData, getData2 } = useRealtimeDataBase();
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -100,6 +111,13 @@ export default function Layout() {
   const databaseUser: IDatabaseUser | null = useTypedSelector(
     (state) => state.databaseUser.user
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    getData(`users/${authUser?.uid}`);
+    getData2(`users`);
+  }, [authUser?.uid]);
+
   const { colorMode } = useColorMode();
 
   return (
@@ -111,6 +129,8 @@ export default function Layout() {
           authUser,
           colorMode,
           hasScrolled,
+          isModalOpen,
+          setIsModalOpen,
         }}
       >
         {isVisibleOfferSection && (
@@ -149,14 +169,14 @@ export default function Layout() {
                     <Box flexGrow="1" alignSelf="flex-start">
                       <Skeleton height="27px"></Skeleton>
                       <Grid
-                        className="productsWrap"
+                        id="products-wrap"
                         mt="20px"
                         gridTemplateColumns={{
                           sm: "repeat(auto-fit, minmax(210px, 1fr))",
                         }}
                         gap="20px"
                       >
-                        {Array(10)
+                        {Array(5)
                           .fill(undefined)
                           .map((item, i) => (
                             <Skeleton key={i} height="378px" width="218px" />

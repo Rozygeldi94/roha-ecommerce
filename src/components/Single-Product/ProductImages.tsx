@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import {
   Navigation,
   Pagination,
@@ -38,7 +38,7 @@ export const ProductImages: FC<IProductImagesProps> = ({ currentProduct }) => {
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
       >
-        {currentProduct?.images?.map((item) => (
+        {currentProduct?.images?.map((item, i) => (
           <SwiperSlide>
             <Image
               margin="0 auto"

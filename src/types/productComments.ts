@@ -1,4 +1,5 @@
 export interface IComment {
+  id?: number;
   postId: string | undefined;
   comment_id: string;
   user: {

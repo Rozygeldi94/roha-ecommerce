@@ -13,7 +13,7 @@ type TComments = {
 export interface IDatabaseUser {
   id: number;
   user_avatar: string;
-  comments: TComments;
+  comments: TComments[];
   timeZone: string;
   locationCity: string;
 }

@@ -16,7 +16,7 @@ export const getCategoriesAndBrands = (storageValue: ISidebarFilter) => {
     "601 TL - 2500 TL",
     "2501 TL - 10000 TL",
   ];
-  console.log(data?.products);
+
   const temporaryCategories = [
     ...new Map(
       data?.products?.map((item: IProduct) => [item.category, item.category])

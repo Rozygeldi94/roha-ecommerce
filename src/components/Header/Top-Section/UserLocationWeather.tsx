@@ -29,13 +29,14 @@ export const UserLocationWeather = () => {
   const { setCityWeather } = useActions();
 
   useEffect(() => {
-    if (!cityWeather && currentUserCity) {
+    if (currentUserCity) {
       (async () => {
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${currentUserCity}&units=metric&appid=${
           import.meta.env.VITE_API_OPEN_WEATHER_KEY
         }`;
         const response: IOpenWeatherMap = await getUserLocationWeather(url);
         setCityWeather(response);
+        console.log(response);
       })();
     }
     if (cityWeather && userTime) {
@@ -93,7 +94,7 @@ export const UserLocationWeather = () => {
           break;
       }
     }
-  }, [authUser, userTime]);
+  }, [authUser, userTime, currentUserCity]);
 
   return (
     <Flex alignItems="center">
@@ -104,7 +105,7 @@ export const UserLocationWeather = () => {
           {Math.round(cityWeather?.main?.temp)}°
         </Text>
       ) : (
-        "no data"
+        " no data"
       )}
     </Flex>
   );

@@ -15,7 +15,6 @@ export const OfferSection: FC<IOfferSectionProps> = ({
   const handleCloseSection = () => {
     setIsVisibleOfferSection((prev) => !prev);
   };
-  console.log(currentMonthPromo);
 
   useEffect(() => {
     getCurrentMonthPromo();
@@ -67,7 +66,7 @@ export const OfferSection: FC<IOfferSectionProps> = ({
                   "polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)",
               }}
             >
-              60TL
+              50TL
             </Text>
           </Flex>{" "}
           <Text
@@ -76,7 +75,7 @@ export const OfferSection: FC<IOfferSectionProps> = ({
           >
             Use the code{" "}
             <b>
-              <u>promo60</u>
+              <u>may50</u>
             </b>
           </Text>
           <Flex alignItems="center">

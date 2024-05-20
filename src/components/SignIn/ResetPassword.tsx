@@ -84,6 +84,8 @@ const ResetPassword = () => {
             isInvalid={errors[EReseResetPassword.EMAIL] ? true : false}
           >
             <Input
+              required
+              maxLength={50}
               w="100%"
               p="8px 15px"
               color="#343333"

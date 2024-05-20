@@ -4,13 +4,13 @@ import { FC, useContext, useState } from "react";
 import { DatabaseContext } from "./Product";
 import { MainContext } from "@/pages/Layout";
 import { IDatabaseUser } from "@/types/databaseUser.type";
-import { IComment } from "@/types/productComments";
+import { IBotComment, IComment } from "@/types/productComments";
 
 interface ICommentLikesProps {
   likes: (string | null | undefined)[];
   databaseCurrentUser: IDatabaseUser | null;
   databaseUsers: null;
-  comment: IComment;
+  comment: IComment | IBotComment;
 }
 
 export const CommentLikes: FC<ICommentLikesProps> = ({

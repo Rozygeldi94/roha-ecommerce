@@ -24,6 +24,7 @@ import { UserAvatar } from "./UserAvatar";
 import { MdModeEditOutline } from "react-icons/md";
 import { MainContext } from "@/pages/Layout";
 import { ChangeEvent, useContext, useState } from "react";
+import { useRemoveStorage, useUploadStorage } from "@/hooks/useStorage";
 
 export const EditAvatarBox = () => {
   const { currentUser, databaseUser, authUser, colorMode } =

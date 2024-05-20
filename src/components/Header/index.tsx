@@ -25,12 +25,12 @@ export const Header: FC<IHeaderProps> = ({ isVisibleOfferSection }) => {
   const products = useTypedSelector(
     (state) => state.shoppingCard.shoppingCartProducts
   );
-  const { authUser, hasScrolled, colorMode } = useContext(MainContext);
+  const { authUser, hasScrolled, colorMode, isModalOpen, setIsModalOpen } =
+    useContext(MainContext);
   const [isLargerThan767] = useMediaQuery("(min-width: 768px)");
   const [isLargerThan640] = useMediaQuery("(min-width: 640px)");
   const [isLargerThan600] = useMediaQuery("(min-width: 600px)");
   const [isLargerThan440] = useMediaQuery("(min-width: 440px)");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [trigger] = useLazyGetProductsByTitleQuery();
   const searchInputValue = useTypedSelector(
     (state) => state.searchProducts.value
@@ -76,9 +76,17 @@ export const Header: FC<IHeaderProps> = ({ isVisibleOfferSection }) => {
               <HamburgerMenu isLargerThan440={isLargerThan440} />
               <Link as={RouterLink} to={ROOT}>
                 {colorMode === "light" ? (
-                  <HeaderLogo logoSrc="/logo_brown.svg" />
+                  <HeaderLogo
+                    logoSrc={`${
+                      import.meta.env.VITE_ROUTER_BASE_NAME
+                    }/logo_brown.svg`}
+                  />
                 ) : (
-                  <HeaderLogo logoSrc="/logo_white.svg" />
+                  <HeaderLogo
+                    logoSrc={`${
+                      import.meta.env.VITE_ROUTER_BASE_NAME
+                    }/logo_white.svg`}
+                  />
                 )}
               </Link>
               <Box flexGrow={1} maxW="100%">
@@ -184,9 +192,17 @@ export const Header: FC<IHeaderProps> = ({ isVisibleOfferSection }) => {
               <HamburgerMenu isLargerThan440={isLargerThan440} />
               <Link as={RouterLink} to={ROOT}>
                 {colorMode === "light" ? (
-                  <HeaderLogo logoSrc="/logo_brown.svg" />
+                  <HeaderLogo
+                    logoSrc={`${
+                      import.meta.env.VITE_ROUTER_BASE_NAME
+                    }/logo_brown.svg`}
+                  />
                 ) : (
-                  <HeaderLogo logoSrc="/logo_white.svg" />
+                  <HeaderLogo
+                    logoSrc={`${
+                      import.meta.env.VITE_ROUTER_BASE_NAME
+                    }/logo_white.svg`}
+                  />
                 )}
               </Link>
               <Box flexGrow={1} maxW="100%">
@@ -220,7 +236,10 @@ export const Header: FC<IHeaderProps> = ({ isVisibleOfferSection }) => {
                 />
               </Box>
               {isModalOpen && (
-                <SearchModalContainer setIsModalOpen={setIsModalOpen} />
+                <SearchModalContainer
+                  setIsModalOpen={setIsModalOpen}
+                  isModalOpen={isModalOpen}
+                />
               )}
             </Flex>
           </Box>

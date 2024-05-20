@@ -21,8 +21,9 @@ import {
   FcFlashOn,
 } from "react-icons/fc";
 import { ELECTRONICS, MEN, OTHER, WOMEN } from "@/route";
-import { Link as RouterLink } from "react-router-dom";
-import { FC } from "react";
+import { Link as RouterLink, useLocation } from "react-router-dom";
+import { FC, useContext, useEffect } from "react";
+import { MainContext } from "@/pages/Layout";
 
 interface IHamburgerMenuProps {
   isLargerThan440: boolean;
@@ -30,7 +31,11 @@ interface IHamburgerMenuProps {
 
 export const HamburgerMenu: FC<IHamburgerMenuProps> = ({ isLargerThan440 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { colorMode } = useColorMode();
+  const { colorMode } = useContext(MainContext);
+  const location = useLocation();
+  useEffect(() => {
+    onClose();
+  }, [location.pathname]);
   return (
     <>
       <Button
@@ -61,7 +66,7 @@ export const HamburgerMenu: FC<IHamburgerMenuProps> = ({ isLargerThan440 }) => {
               bg="linear-gradient(90deg, rgba(255, 59, 0, 1) 0%, rgba(255, 255, 0, 1) 100%);"
             >
               <Flex alignItems="center" gap="5px" minHeight="50px">
-                <FcFlashOn size="28px" /> Great shopping
+                <FcFlashOn size="28px" /> Main page
               </Flex>
               <Flex
                 w="24px"

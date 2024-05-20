@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import "./App.css";
 import theme from "./chakraUI/theme";
-import { Ripple } from "react-preloaders";
 
 export function App() {
   return (
@@ -13,7 +12,6 @@ export function App() {
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <RouterProvider router={route} />;
-        <Ripple />
       </ChakraProvider>
     </Provider>
   );

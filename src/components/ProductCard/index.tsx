@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { Text, Image, Box, Link, useColorMode, Flex } from "@chakra-ui/react";
 import { StarRating } from "./StarRating";
 import { Link as RouterLink } from "react-router-dom";
@@ -6,6 +6,10 @@ import { ButtonAddToShoppingCart } from "../ButtonAddToShoppingCart";
 import { useGetAllCommentsByPostIdQuery } from "@/store/api";
 import { MdComment } from "react-icons/md";
 import { IProduct } from "@/types/product.types";
+import { calculateAllCommentsCount } from "@/utils/calculateAllCommentsCount";
+import { MainContext } from "@/pages/Layout";
+import { useTypedSelector } from "@/hooks/useTypedSelector";
+import { IBotComment, IComment } from "@/types/productComments";
 
 interface IProductCardProps {
   product: IProduct;
@@ -16,7 +20,8 @@ export const ProductCard: FC<IProductCardProps> = ({
   product,
   hasDiscount,
 }) => {
-  const { colorMode } = useColorMode();
+  const { colorMode } = useContext(MainContext);
+  const databaseUsers = useTypedSelector((state) => state.databaseUser.users);
   const newPrice = Math.floor(
     (product?.price / 100) *
       (100 -
@@ -24,7 +29,20 @@ export const ProductCard: FC<IProductCardProps> = ({
           product?.discountPercentage ? product?.discountPercentage : 0
         ))
   );
+  const [allComments, setAllComments] = useState<(IComment | IBotComment)[]>(
+    []
+  );
   const { data: productComments } = useGetAllCommentsByPostIdQuery(product?.id);
+
+  useEffect(() => {
+    const allComments = calculateAllCommentsCount(
+      databaseUsers,
+      productComments?.comments,
+      product?.id.toString()
+    );
+    setAllComments(allComments);
+  }, [databaseUsers, productComments]);
+
   return (
     <Link
       as={RouterLink}
@@ -99,7 +117,7 @@ export const ProductCard: FC<IProductCardProps> = ({
           <StarRating productRating={product?.rating} />
           <Flex alignItems="center" gap="3px">
             <MdComment />
-            {productComments?.total}
+            {allComments?.length}
           </Flex>
         </Flex>
       )}
@@ -113,7 +131,7 @@ export const ProductCard: FC<IProductCardProps> = ({
         {hasDiscount && (
           <Text
             fontSize="1.2rem"
-            color={colorMode === "light" ? "#3f3e57" : "#666240"}
+            color={colorMode === "light" ? "green" : "#e8cf17"}
             fontWeight="600"
           >
             {newPrice} TL
@@ -145,7 +163,7 @@ export const ProductCard: FC<IProductCardProps> = ({
         ) : (
           <Text
             fontSize="1.2rem"
-            color={colorMode === "light" ? "#3f3e57" : "#666240"}
+            color={colorMode === "light" ? "green" : "#e8cf17"}
             fontWeight="600"
           >
             {" "}

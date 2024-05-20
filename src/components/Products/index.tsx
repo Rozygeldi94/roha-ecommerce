@@ -138,7 +138,7 @@ export const Products: FC = () => {
           </Box>
         )}
 
-        <Box as="main" flexGrow="1" alignSelf="flex-start">
+        <Box flexGrow="1" alignSelf="flex-start">
           <TextHelper
             list={list}
             searchInputValue={searchInputValue}
@@ -147,7 +147,7 @@ export const Products: FC = () => {
           />
 
           <Grid
-            className="productsWrap"
+            id="products-wrap"
             mt="20px"
             gridTemplateColumns={{
               sm: "repeat(auto-fit, minmax(210px, 1fr))",

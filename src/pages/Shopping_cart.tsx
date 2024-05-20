@@ -52,6 +52,7 @@ export default function ShoppingCart() {
         </Text>
       ) : (
         <Text
+          height="50vh"
           textAlign="center"
           fontSize={{ base: "1rem", md: "1.2rem" }}
           fontWeight="500"

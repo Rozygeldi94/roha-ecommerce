@@ -73,6 +73,7 @@ export const Subscribe = () => {
         <FormControl isInvalid={errors.email ? true : false}>
           <Input
             placeholder="Your email"
+            maxLength={50}
             size={{ base: "sm", isLargerThan360: "md" }}
             border={
               colorMode === "light" ? "1px solid #454764" : "1px solid #b9bdf2"
