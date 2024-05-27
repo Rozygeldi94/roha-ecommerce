@@ -90,22 +90,7 @@ export default function Layout() {
 
     return () => window.removeEventListener("scroll", resizeHeaderOnScroll);
   }, []);
-  /*   const obj = {
-    name: "Jemal",
-    job: "Frontend Developer",
-    salary: {
-      may: 80,
-      juny: 90,
-    },
-  };
-  const arr = [
-    ["name", "Jemal"],
-    ["job", "Frontend Developer"],
-    ["salary", 100],
-  ];
 
-  const { job: _, ...aaa } = obj;
-  console.log(aaa); */
   const { currentUser } = useAuth();
   const [authUser, authLoading, error] = useAuthState(auth);
   const databaseUser: IDatabaseUser | null = useTypedSelector(

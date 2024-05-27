@@ -1,9 +1,11 @@
+import { useContext } from "react";
+import { MainContext } from "@/pages/Layout";
 import { getTopBrands } from "@/utils/getTopBrands";
 import { Flex, Link, Text, useColorMode } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
 export const TopBrands = () => {
-  const { colorMode } = useColorMode();
+  const { colorMode } = useContext(MainContext);
   const topBrands = getTopBrands();
   return (
     <Flex flexWrap="wrap" justifyContent="center" mt="40px" gap="20px">

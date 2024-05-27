@@ -108,8 +108,6 @@ export const Sidebar: FC<ISidebarProps> = ({ products }) => {
       <SidebarAccordion groupTitle="Price">
         <RadioGroup
           onChange={(selectedPriceValue) => {
-            console.log(selectedPriceValue);
-
             setPriceValue(selectedPriceValue);
             setSidebarActive(true);
             const currentPagenationPage = document.querySelectorAll(

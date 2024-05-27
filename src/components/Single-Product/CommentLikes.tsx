@@ -20,7 +20,9 @@ export const CommentLikes: FC<ICommentLikesProps> = ({
 }) => {
   const { setData } = useContext(DatabaseContext);
   const { authUser } = useContext(MainContext);
-  const isLiked = likes?.includes(authUser ? authUser?.uid : "");
+  const isLiked = Array.isArray(likes)
+    ? likes?.includes(authUser ? authUser?.uid : "")
+    : false;
   const viewLikedUsers: IDatabaseUser[] = [];
 
   const databaseUsersArray: [string, IDatabaseUser][] =
@@ -38,7 +40,9 @@ export const CommentLikes: FC<ICommentLikesProps> = ({
     if (!isLiked) {
       const setLike = likes ? [...likes, authUser?.uid] : [authUser?.uid];
       setData(
-        `users/${comment?.user?.id}/comments/${comment?.comment_id}`,
+        `users/${comment?.user?.id}/comments/${
+          (comment as IComment)?.comment_id
+        }`,
         { likes: setLike },
         "update"
       );
@@ -48,7 +52,9 @@ export const CommentLikes: FC<ICommentLikesProps> = ({
     if (isLiked) {
       const disLike = likes?.filter((uid) => uid !== authUser?.uid);
       setData(
-        `users/${comment?.user?.id}/comments/${comment?.comment_id}`,
+        `users/${comment?.user?.id}/comments/${
+          (comment as IComment)?.comment_id
+        }`,
         { likes: disLike },
         "update"
       );
@@ -62,7 +68,7 @@ export const CommentLikes: FC<ICommentLikesProps> = ({
           minWidth="0"
           height="auto"
           padding="0"
-          isDisabled={comment?.user?.gender ? false : true}
+          isDisabled={(comment as IComment)?.user?.gender ? false : true}
         >
           <AiFillLike
             id="set-like-btn"
@@ -103,7 +109,7 @@ export const CommentLikes: FC<ICommentLikesProps> = ({
         minWidth="0"
         height="auto"
         padding="0"
-        isDisabled={comment?.user?.gender ? false : true}
+        isDisabled={(comment as IComment)?.user?.gender ? false : true}
       >
         <AiFillDislike size="18px" onClick={handleDecLike} />
       </Button>

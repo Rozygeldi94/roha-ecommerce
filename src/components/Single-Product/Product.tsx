@@ -67,8 +67,6 @@ export const Product: FC = () => {
   }, [databaseUsers, productComments]);
 
   useEffect(() => {
-    console.log(222);
-
     isModalOpen && setIsModalOpen(false);
   }, [location.pathname]);
 

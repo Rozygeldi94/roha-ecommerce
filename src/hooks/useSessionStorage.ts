@@ -18,8 +18,6 @@ export const useSessionStorage = (keyName: string, defaultValue: []) => {
   });
 
   const setValue = (newValue: ISidebarFilter) => {
-    console.log(newValue);
-
     try {
       sessionStorage.setItem(keyName, JSON.stringify(newValue));
     } catch (err) {}

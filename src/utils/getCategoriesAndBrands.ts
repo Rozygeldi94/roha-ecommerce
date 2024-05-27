@@ -46,7 +46,7 @@ export const getCategoriesAndBrands = (storageValue: ISidebarFilter) => {
     );
 
     if (storedBrands?.length > 0) {
-      if (storedBrands?.includes(brand.toLowerCase())) {
+      if (storedBrands?.includes(brand?.toLowerCase())) {
         return { brand: brand, isChecked: true };
       } else {
         return { brand: brand };

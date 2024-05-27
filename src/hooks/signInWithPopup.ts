@@ -30,12 +30,8 @@ export const useSignInWithGoogle = () => {
 
         if (filteredUser) {
           updatePassword(currentUser, filteredUserPassword)
-            .then(() => {
-              console.log("password changed");
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+            .then(() => {})
+            .catch((error) => {});
         }
 
         const userName = currentUser.displayName?.split(" ");
@@ -69,8 +65,6 @@ export const useSignInWithGoogle = () => {
         })();
       })
       .catch((error) => {
-        console.log(error.message);
-
         if (error.code === "auth/account-exists-with-different-credential") {
           toast({
             title:
@@ -85,64 +79,3 @@ export const useSignInWithGoogle = () => {
   };
   return { signInWithGoogle };
 };
-
-/* export const useSignInWithFacebook = () => {
-  const signInWithFacebook = () => {
-    let existingEmail = null;
-    let pendingCred = null;
-    let facebookProvider = new FacebookAuthProvider();
-
-    signInWithPopup(auth, facebookProvider)
-      .then((result) => {
-        // Successful sign-in.
-      })
-      .catch((error) => {
-        // Account exists with different credential. To recover both accounts
-        // have to be linked but the user must prove ownership of the original
-        // account.
-
-        if (error.code == "auth/account-exists-with-different-credential") {
-          existingEmail = error.customData.email;
-          pendingCred = error.credential;
-          // Lookup existing account’s provider ID.
-
-          return fetchSignInMethodsForEmail(auth, error.customData.email)
-            .then((providers) => {
-              console.log(providers);
-
-              if (providers.indexOf(EmailAuthProvider.PROVIDER_ID) != -1) {
-                // Password account already exists with the same email.
-                // Ask user to provide password associated with that account.
-                var password = window.prompt(
-                  "Please provide the password for " + existingEmail
-                );
-                return signInWithEmailAndPassword(
-                  auth,
-                  existingEmail,
-                  password
-                );
-              } else if (
-                providers.indexOf(GoogleAuthProvider.PROVIDER_ID) != -1
-              ) {
-                let googProvider = new GoogleAuthProvider();
-                // Sign in user to Google with same account.
-                googProvider.setCustomParameters({ login_hint: existingEmail });
-                return signInWithPopup(auth, googProvider).then(function (
-                  result
-                ) {
-                  return result.user;
-                });
-              } else {
-              }
-            })
-            .then(function (user) {
-              // Existing email/password or Google user signed in.
-              // Link Facebook OAuth credential to existing account.
-              return user.linkWithCredential(pendingCred);
-            });
-        }
-        throw error;
-      });
-  };
-  return { signInWithFacebook };
-}; */

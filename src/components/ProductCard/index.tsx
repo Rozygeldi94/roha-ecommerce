@@ -14,11 +14,13 @@ import { IBotComment, IComment } from "@/types/productComments";
 interface IProductCardProps {
   product: IProduct;
   hasDiscount?: boolean;
+  isRecommended?: boolean;
 }
 
 export const ProductCard: FC<IProductCardProps> = ({
   product,
   hasDiscount,
+  isRecommended,
 }) => {
   const { colorMode } = useContext(MainContext);
   const databaseUsers = useTypedSelector((state) => state.databaseUser.users);
@@ -114,7 +116,11 @@ export const ProductCard: FC<IProductCardProps> = ({
 
       {!hasDiscount && (
         <Flex justifyContent="space-between">
-          <StarRating productRating={product?.rating} />
+          {isRecommended ? (
+            <Image maxW="35px" src="recommended.png" alt="recommended logo" />
+          ) : (
+            <StarRating productRating={product?.rating} />
+          )}
           <Flex alignItems="center" gap="3px">
             <MdComment />
             {allComments?.length}

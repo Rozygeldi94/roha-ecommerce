@@ -36,7 +36,6 @@ export const UserLocationWeather = () => {
         }`;
         const response: IOpenWeatherMap = await getUserLocationWeather(url);
         setCityWeather(response);
-        console.log(response);
       })();
     }
     if (cityWeather && userTime) {

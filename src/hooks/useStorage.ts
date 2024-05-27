@@ -31,7 +31,6 @@ export const useUploadStorage = (uid: string) => {
         });
         return;
       }
-      console.log("yes");
 
       setIsPhotoLoading(true);
       const fileRef = storageRef(storage, "avatars/" + uid);
@@ -86,14 +85,11 @@ export const useRemoveStorage = (uid: string | undefined) => {
               status: "success",
             });
           })
-          .catch((error) => {
-            console.log(error);
-          });
+          .catch((error) => {});
         remove(databaseRef(database, `users/${uid}/user_avatar`));
         setRemoveLoading(false);
       }
     } catch (error) {
-      console.log(error);
     } finally {
       setRemoveLoading(false);
     }

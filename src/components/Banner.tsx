@@ -90,7 +90,6 @@ export const Banner = () => {
     const swiperEl = document.querySelector("swiper-container") as HTMLElement;
 
     swiperEl?.addEventListener("autoplaytimeleft", (e) => {
-      console.log(e);
       const [swiper, time, progress] = (e as CustomEvent).detail;
       progressCircle.style.setProperty("--progress", (1 - progress).toString());
       progressContent.textContent = `${Math.ceil(time / 1000)}s`;

@@ -4,13 +4,13 @@ import Layout from "./pages/Layout";
 import { Products } from "./components/Products";
 
 const Home = lazy(() => import("./pages/Home"));
+const AllProducts = lazy(() => import("./pages/AllProducts"));
 const Men = lazy(() => import("./pages/Men"));
 const Women = lazy(() => import("./pages/Women"));
 const Electronics = lazy(() => import("./pages/Electronics"));
 const Kids = lazy(() => import("./pages/Kids"));
 const HomeAndFurniture = lazy(() => import("./pages/HomeAndFurniture"));
 const Cosmetics = lazy(() => import("./pages/Cosmetics"));
-const Motorcycle = lazy(() => import("./pages/Motorcycle"));
 const SportAndOutdoor = lazy(() => import("./pages/SportAndOutdoor"));
 const ShoppingCart = lazy(() => import("./pages/Shopping_cart"));
 const Login = lazy(() => import("./pages/Login"));
@@ -22,13 +22,13 @@ const Other = lazy(() => import("./pages/Other"));
 const ResetPassword = lazy(() => import("./components/SignIn/ResetPassword"));
 
 export const ROOT = "/";
+export const ALL_PRODUCTS = "/all-products";
 export const MEN = "/men";
 export const WOMEN = "/women";
 export const ELECTRONICS = "/electronics";
 export const KIDS = "/kids";
 export const HOME_AND_FURNITURE = "/home-and-furniture";
 export const COSMETICS = "/cosmetics";
-export const MOTORCYCLE = "/motorcycle";
 export const SPORT_AND_OUTDOOR = "/sport-and-outdoor";
 export const OTHER = "/other-products";
 export const LOGIN = "/login";
@@ -46,13 +46,13 @@ export const route = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: ROOT, element: <Home /> },
+      { path: ALL_PRODUCTS, element: <AllProducts /> },
       { path: MEN, element: <Men /> },
       { path: WOMEN, element: <Women /> },
       { path: ELECTRONICS, element: <Electronics /> },
       { path: KIDS, element: <Kids /> },
       { path: HOME_AND_FURNITURE, element: <HomeAndFurniture /> },
       { path: COSMETICS, element: <Cosmetics /> },
-      { path: MOTORCYCLE, element: <Motorcycle /> },
       { path: SPORT_AND_OUTDOOR, element: <SportAndOutdoor /> },
       { path: OTHER, element: <Other /> },
       { path: LOGIN, element: <Login /> },

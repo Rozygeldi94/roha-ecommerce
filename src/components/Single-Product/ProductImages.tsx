@@ -20,6 +20,7 @@ interface IProductImagesProps {
 
 export const ProductImages: FC<IProductImagesProps> = ({ currentProduct }) => {
   const [isSmallerThan600] = useMediaQuery(["(max-width: 599px)"]);
+  console.log(currentProduct?.images);
 
   return (
     <Box
