@@ -19,11 +19,13 @@ import {
   FcViewDetails,
   FcNext,
   FcFlashOn,
+  FcStackOfPhotos,
 } from "react-icons/fc";
-import { ELECTRONICS, MEN, OTHER, WOMEN } from "@/route";
+import { ALL_PRODUCTS, ELECTRONICS, MEN, OTHER, WOMEN } from "@/route";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { FC, useContext, useEffect } from "react";
 import { MainContext } from "@/pages/Layout";
+import { resetSidebarValuesFn } from "@/utils/resetSidebarValues";
 
 interface IHamburgerMenuProps {
   isLargerThan440: boolean;
@@ -36,6 +38,7 @@ export const HamburgerMenu: FC<IHamburgerMenuProps> = ({ isLargerThan440 }) => {
   useEffect(() => {
     onClose();
   }, [location.pathname]);
+
   return (
     <>
       <Button
@@ -82,6 +85,23 @@ export const HamburgerMenu: FC<IHamburgerMenuProps> = ({ isLargerThan440 }) => {
             <Divider borderColor="#46395b" />
             <Link
               as={RouterLink}
+              to={ALL_PRODUCTS}
+              padding="0 20px"
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              onClick={resetSidebarValuesFn}
+            >
+              <Flex alignItems="center" gap="5px" minHeight="45px">
+                <FcStackOfPhotos size="18px" /> All
+              </Flex>
+              <FcNext />
+            </Link>
+            <Divider
+              borderColor={colorMode === "light" ? "#46395b" : "#c4d1ed"}
+            />
+            <Link
+              as={RouterLink}
               to={MEN}
               padding="0 20px"
               display="flex"
@@ -96,7 +116,6 @@ export const HamburgerMenu: FC<IHamburgerMenuProps> = ({ isLargerThan440 }) => {
             <Divider
               borderColor={colorMode === "light" ? "#46395b" : "#c4d1ed"}
             />
-
             <Link
               as={RouterLink}
               to={WOMEN}

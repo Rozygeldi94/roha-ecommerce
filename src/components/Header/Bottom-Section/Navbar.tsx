@@ -17,6 +17,7 @@ import {
   SPORT_AND_OUTDOOR,
   COSMETICS,
 } from "@/route";
+import { resetSidebarValuesFn } from "@/utils/resetSidebarValues";
 
 export const Navbar = () => {
   const { colorMode } = useColorMode();
@@ -71,6 +72,7 @@ export const Navbar = () => {
             fontSize="1.1rem"
             fontWeight="600"
             _hover={{ background: "#a5abdd", textDecoration: "none" }}
+            onClick={item?.title === "All" ? resetSidebarValuesFn : undefined}
           >
             {item?.title}
           </Link>

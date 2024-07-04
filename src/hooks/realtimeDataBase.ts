@@ -41,7 +41,7 @@ export const useRealtimeDataBase = () => {
   const setData = (
     docRef: string,
     data: IComment | IUserInfo | TCommentLikes,
-    method: string
+    method: "push" | "update"
   ) => {
     if (!docRef) {
       throw new Error("docRef is empty!");
@@ -54,7 +54,7 @@ export const useRealtimeDataBase = () => {
         comment_id: documentRef.key,
       });
     } else {
-      console.log("update", data);
+      console.log("update", docRef, data);
 
       update(ref(database, docRef), {
         ...data,

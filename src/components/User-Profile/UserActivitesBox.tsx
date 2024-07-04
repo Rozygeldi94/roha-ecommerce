@@ -28,12 +28,18 @@ export const UserActivites = () => {
     >
       <Text>
         Your activated promo codes:{" "}
-        <Text as="span">{currentUser?.activated_promo_codes?.length}</Text>
+        <Text as="span">
+          {currentUser?.activated_promo_codes?.length
+            ? currentUser?.activated_promo_codes?.length > 1
+            : "0"}
+        </Text>
       </Text>
       <Text>
         Your comments:{" "}
         <Text as="span">
-          {databaseUser && Object.values(databaseUser?.comments).length}
+          {databaseUser?.comments
+            ? Object.values(databaseUser?.comments)?.length
+            : "0"}
         </Text>
       </Text>
     </Box>

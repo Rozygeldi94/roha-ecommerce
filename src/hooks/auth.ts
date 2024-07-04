@@ -1,5 +1,5 @@
 import { auth, db } from "../firebase/firebaseConfig";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DocumentData, doc, getDoc, setDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -82,6 +82,7 @@ export function useLogin() {
 export function useRegister() {
   const navigate = useNavigate();
   const [signOut, isLoading] = useSignOut(auth);
+
   const toast = useToast();
   const registerUser = async ({
     firstName,
@@ -131,6 +132,7 @@ export function useRegister() {
           isEmailVerified: false,
           password: encryptedPassword.toString(),
         });
+
         toast({
           title: "Please verify your email adress!",
           status: "success",

@@ -82,9 +82,8 @@ export const EditAvatarBox = () => {
         bg={colorMode === "light" ? "#f6f6f8" : "#4f4f82"}
         padding="15px"
         display="flex"
-        justifyContent="space-between"
+        gap="10px"
         alignItems="center"
-        gap="5px"
         borderRadius="10px"
         position="absolute"
         bottom="-40px"

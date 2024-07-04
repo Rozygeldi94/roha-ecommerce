@@ -244,24 +244,26 @@ export const ProfileInfoBox: FC = () => {
                 fontWeight="400"
                 href={`mailto: ${currentUser?.user_email}`}
               >
-                {currentUser?.user_email}
+                {currentUser?.user_email ? currentUser?.user_email : "none"}
               </Link>
             </Box>
             <Box>
               <Text as="span" fontWeight="700">
                 Gender:
               </Text>{" "}
-              <Link fontWeight="400">{currentUser?.gender}</Link>
+              <Link fontWeight="400">
+                {currentUser?.gender ? currentUser?.gender : "none"}
+              </Link>
             </Box>
             <Box w="100%" fontWeight="700" display="flex" gap="5px">
-              <Text>Phone number:</Text>
+              <Text>Phone number: </Text>
               <Link
                 fontWeight="400"
                 href={`tel: +${currentUser?.phone_number}`}
               >
                 {currentUser?.phone_number
                   ? `+${currentUser.phone_number}`
-                  : ""}
+                  : "none"}
               </Link>
             </Box>
             <Box>
@@ -274,7 +276,9 @@ export const ProfileInfoBox: FC = () => {
                       currentUser?.location?.city ||
                       currentUser?.location?.state
                     }, ${currentUser?.location?.country}`
-                  : currentUser?.location?.country}
+                  : currentUser?.location?.country
+                  ? currentUser?.location?.country
+                  : "none"}
               </Text>
             </Box>
             <Text alignSelf="center" fontWeight="500" fontSize="0.85rem">

@@ -11,7 +11,7 @@ export function App() {
     <Provider store={store}>
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <RouterProvider router={route} />;
+        <RouterProvider router={route} />
       </ChakraProvider>
     </Provider>
   );

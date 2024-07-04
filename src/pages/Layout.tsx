@@ -52,14 +52,14 @@ export default function Layout() {
   const { saveImportedDataToStore } = useActions();
   const location = useLocation();
   const [isVisibleOfferSection, setIsVisibleOfferSection] = useState(true);
-  const { getData, getData2 } = useRealtimeDataBase();
+  const { getData, getData2, setData } = useRealtimeDataBase();
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       async function fetchData() {
         const docRef = doc(db, "users", user?.email as string);
         const docSnap = await getDoc(docRef);
-        if (docSnap.data()?.shopping_cart.length && !storeProducts.length) {
+        if (docSnap.data()?.shopping_cart?.length && !storeProducts?.length) {
           saveImportedDataToStore(docSnap.data()?.shopping_cart);
         }
       }
@@ -93,6 +93,7 @@ export default function Layout() {
 
   const { currentUser } = useAuth();
   const [authUser, authLoading, error] = useAuthState(auth);
+  const { colorMode } = useColorMode();
   const databaseUser: IDatabaseUser | null = useTypedSelector(
     (state) => state.databaseUser.user
   );
@@ -103,7 +104,24 @@ export default function Layout() {
     getData2(`users`);
   }, [authUser?.uid]);
 
-  const { colorMode } = useColorMode();
+  useEffect(() => {
+    console.log(authUser?.uid);
+    console.log(databaseUser);
+
+    if (authUser?.uid && !databaseUser) {
+      setData(
+        `users/${authUser?.uid}`,
+        {
+          id: authUser?.uid as string,
+          locationCity: "",
+          timeZone: "",
+          userEmail: currentUser?.user_email,
+          userName: currentUser?.first_name,
+        },
+        "update"
+      );
+    }
+  }, [databaseUser]);
 
   return (
     <Flex flexDirection="column" minHeight="100vh">

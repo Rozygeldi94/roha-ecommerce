@@ -47,7 +47,7 @@ export default function ShoppingCart() {
           </Flex>
         </>
       ) : authUser && shoppingCartProducts?.length === 0 ? (
-        <Text fontSize="1.2rem" fontWeight="500">
+        <Text fontSize="1.2rem" height="50vh" fontWeight="500">
           There are no items in the cart yet!
         </Text>
       ) : (

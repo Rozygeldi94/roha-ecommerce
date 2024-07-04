@@ -59,7 +59,7 @@ export const Products: FC = () => {
       if (sidebarFilterValues?.brand?.length) {
         filteredProducts = filteredProducts?.filter((product) => {
           const shortProductTitle = product?.brand?.toLowerCase();
-          const lowercasedBrands = sidebarFilterValues?.brand.map((item) =>
+          const lowercasedBrands = sidebarFilterValues?.brand?.map((item) =>
             (item as string)?.toLowerCase()
           );
           return lowercasedBrands?.includes(

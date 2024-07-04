@@ -87,7 +87,7 @@ export const SignIn: React.FC = () => {
             borderRadius="5px"
             border="none"
             outline="none"
-            placeholder="Email address"
+            placeholder="guest@gmail.com"
             _placeholder={{ color: "#504c90" }}
             bg="#e0e6f2"
             {...register(EInputName.EMAIL)}
@@ -104,7 +104,7 @@ export const SignIn: React.FC = () => {
               borderRadius="5px"
               border="none"
               outline="none"
-              placeholder="Password"
+              placeholder="aaa111**"
               _placeholder={{ color: "#504c90" }}
               bg="#e0e6f2"
               {...register(EInputName.PASSWORD)}
@@ -173,6 +173,30 @@ export const SignIn: React.FC = () => {
           >
             Sign in with{" "}
             <FcGoogle size="1.3rem" style={{ marginLeft: "5px" }} />
+          </Text>
+        </Box>
+        <Box
+          width="80%"
+          mt="20px"
+          padding="8px 15px"
+          bg="#3d0d6d"
+          borderRadius="8px"
+          color="#fff"
+        >
+          <Text>
+            The account is for guest users:{" "}
+            <Text>
+              e-mail:{" "}
+              <Text as="span" color="#b1b1e7">
+                guest@gmail.com
+              </Text>
+            </Text>
+            <Text>
+              password:{" "}
+              <Text as="span" color="#b1b1e7">
+                aaa111**
+              </Text>{" "}
+            </Text>
           </Text>
         </Box>
       </Box>
