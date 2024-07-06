@@ -66,7 +66,7 @@ export function useLogin() {
         title:
           (error as Error).message ===
           "Firebase: Error (auth/invalid-credential)."
-            ? "You have entered incorrect username or password!"
+            ? "You've entered incorrect username or password!"
             : (error as Error).message,
 
         status: "error",
