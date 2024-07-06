@@ -66,7 +66,7 @@ export function useLogin() {
         title:
           (error as Error).message ===
           "Firebase: Error (auth/invalid-credential)."
-            ? "You have entered incorrect username or password!"
+            ? "You've entered incorrect username or password!"
             : (error as Error).message,
 
         status: "error",
@@ -95,7 +95,7 @@ export function useRegister() {
 
     if (isUserExits) {
       toast({
-        title: "Account is already exits",
+        title: "Account  already exits",
         status: "info",
         duration: 5000,
         isClosable: true,
