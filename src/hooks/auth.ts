@@ -95,7 +95,7 @@ export function useRegister() {
 
     if (isUserExits) {
       toast({
-        title: "Account is already exits",
+        title: "Account  already exits",
         status: "info",
         duration: 5000,
         isClosable: true,
