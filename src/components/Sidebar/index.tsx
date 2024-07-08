@@ -78,9 +78,9 @@ export const Sidebar: FC<ISidebarProps> = ({ products }) => {
       <SidebarAccordion groupTitle="Brand">
         <CheckboxGroup
           defaultValue={
-            checkedBrands.length
-              ? checkedBrands.map((item) => item.brand)
-              : (storageValue as ISidebarFilter).brand.map((item) => item)
+            checkedBrands?.length
+              ? checkedBrands?.map((item) => item.brand)
+              : (storageValue as ISidebarFilter)?.brand?.map((item) => item)
           }
           onChange={(selectedBrandValue) => {
             setBrandValue(selectedBrandValue);
