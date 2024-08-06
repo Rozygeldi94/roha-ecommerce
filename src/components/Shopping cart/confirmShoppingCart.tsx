@@ -155,7 +155,7 @@ export const ConfirmShoppingCart = () => {
     if (totalPrice) {
       if (isActivePromo) {
         if (cargoPrice + totalPrice > currentMonthPromo?.promo_price) {
-          return `Total: ${calculateTotalPrice()} TL`;
+          return `Total: ${Math.round(calculateTotalPrice())} TL`;
         } else {
           return (
             <Text fontSize="0.8rem">
@@ -165,9 +165,9 @@ export const ConfirmShoppingCart = () => {
         }
       } else {
         if (calculateTotalPrice() > 0) {
-          return `Total: ${calculateTotalPrice()} TL`;
+          return `Total: ${Math.round(calculateTotalPrice())} TL`;
         } else {
-          return `Total: ${cargoPrice + totalPrice} TL`;
+          return `Total: ${Math.round(cargoPrice + totalPrice)} TL`;
         }
       }
     } else {
