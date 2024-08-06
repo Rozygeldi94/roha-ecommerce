@@ -75,7 +75,7 @@ export const OfferSection: FC<IOfferSectionProps> = ({
           >
             Use the code{" "}
             <b>
-              <u>july50</u>
+              <u>august50</u>
             </b>
           </Text>
           <Flex alignItems="center">
